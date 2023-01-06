@@ -1,0 +1,83 @@
+<ngx-spinner size="medium" color="#fff" type="ball-scale-multiple" [fullScreen]="true">
+    <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>
+<div class="container">
+    <ng-template #content let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Add Daily Notes</h4>
+            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="noteForm">
+                <div class="mb-3">
+                    <label for="dateOfBirth">Add Title Your Note</label>
+                    <div class="input-group">
+                        <input class="form-control" type="text" placeholder="title" formControlName="title" />
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="dateOfBirth">Add Content Note</label>
+                    <div class="input-group">
+                        <textarea class="form-control" placeholder="Add Content Note" formControlName="description"></textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline-dark" [disabled]="noteForm.invalid" (click)="addNote()">
+            Add Note
+          </button>
+        </div>
+    </ng-template>
+
+    <button class="btn btn-lg btn-primary mt-3" (click)="open(content)">
+      Create Note
+      <span class="material-symbols-outlined">note_add</span>
+    </button>
+
+
+
+
+
+    <div class="row">
+        <div class="col-md-4" *ngFor="let note of noteData">
+            <div class="card card-body">
+                <h5>{{note.note_title}}</h5>
+                <p class="text-muted">{{note.note_dec}}</p>
+                <div class="d-flex align-center">
+                    <span class="material-symbols-outlined click" (click)="openOne(edit)" (click)="detailsNote(note)">
+                      edit
+                  </span>
+
+                    <ng-template #edit let-modal>
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="modal-basic-title">Update Note</h4>
+                            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form [formGroup]="editForm">
+                                <div class="mb-3">
+                                    <label for="dateOfBirth">Update Title</label>
+                                    <div class="input-group">
+                                        <input class="form-control" type="text" placeholder="title" formControlName="edit_title" [value]="noteDetails?.note_title" />
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="dateOfBirth">Update Content Note</label>
+                                    <div class="input-group">
+                                        <textarea class="form-control" placeholder="Update Content Note" formControlName="edit_description" [value]="noteDetails?.note_dec"></textarea>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-dark" [disabled]="editForm.invalid" (click)="updateNote(note)">Update</button>
+                        </div>
+                    </ng-template>
+
+                    <span class="material-symbols-outlined click" (click)="deleteNote(note)">delete</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
